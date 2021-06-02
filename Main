@@ -1,0 +1,14 @@
+package mod;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Story s = new Story();
+		s.lodge();
+		s.instructions();
+		ClimbingClub c = new ClimbingClub();
+		c.navigation();
+	}
+
+}
