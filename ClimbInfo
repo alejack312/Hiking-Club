@@ -1,0 +1,53 @@
+package mod;
+
+public class ClimbInfo 
+{
+	private String _cname;
+	private String _pname;
+	private int _time;
+	private double _price;
+	
+	public ClimbInfo(String climberName, String peakName, int climbTime)
+	{
+		_cname = climberName;
+		_pname = peakName;
+		_time = climbTime;
+	}
+	
+	public String getClimberName()
+	{
+		return _cname;
+	}
+	
+	public String getPeakName()
+	{
+		return _pname;
+	}
+	
+	public int getTime()
+	{
+		return _time;
+	}
+	
+	public double price(int t)
+	{
+		double c = (double)t / 5.0;
+		_price = c;
+		return _price;
+	}
+	
+	public String toString()
+	{
+		return _cname + ", " + _pname + "; " + _time + " minutes, $" + price(_time) + "\n";
+	}
+	
+	public String toStringOne()
+	{
+		return _cname + ": " + _time + " minutes\n";
+	}
+	
+	public String toStringTwo()
+	{
+		return _pname + ": " + _time + " minutes\n";
+	}
+}
