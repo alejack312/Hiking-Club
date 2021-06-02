@@ -1,0 +1,194 @@
+package mod;
+import java.util.List;
+import java.util.ArrayList;
+import cont.JOP;
+
+public class ClimbingClub 
+{
+	private List<ClimbInfo> climbList;
+	private boolean isEditing = true;
+	
+	
+	public ClimbingClub()
+	{
+		climbList = new ArrayList<ClimbInfo>();
+	}
+	
+	public void addClimb(String hikerName, String peakName, int time) 
+	{
+		for (int i = 0; i < this.climbList.size(); i++) 
+		{
+			if (hikerName.compareTo(this.climbList.get(i).getClimberName()) <= 0) 
+			{
+				this.climbList.add(i, new ClimbInfo(hikerName, peakName, time));
+				return;
+			}
+		 }
+		 this.climbList.add(new ClimbInfo(hikerName, peakName, time));
+	}
+	
+	public void durationHiker(String climberName)
+	{
+		int sum = 0;
+		String output = "";
+		for(int i = 0; i < climbList.size(); i++)
+		{
+			if(climbList.get(i).getClimberName().equalsIgnoreCase(climberName))
+			{
+				sum += climbList.get(i).getTime();
+				output += climbList.get(i).toStringOne() + "Total Time: " + sum + "\n";
+			}
+		}
+		JOP.msg(output);
+	}
+	
+	public void durationLoc(String peakName)
+	{
+		int sum = 0;
+		String output = "";
+		for(int i = 0; i < climbList.size(); i++)
+		{
+			if(climbList.get(i).getPeakName().equalsIgnoreCase(peakName))
+			{
+				sum += climbList.get(i).getTime();
+				output += climbList.get(i).toStringTwo() + "\nTotal Time: " + sum + "\n";
+			}
+		}
+		JOP.msg(output);
+	}
+	
+	public void printList()
+	{
+		String output = "";
+		for(int i = 0; i < climbList.size(); i++)
+		{
+			output +=  climbList.get(i).toString();
+		}
+		JOP.msg(output);
+	}
+	
+	
+	public void profit()
+	{
+		String output = "";
+		String s1 = ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,$$$$\r\n" + 
+				",,,,,,,,,,,,,,,,,,,,,,,,,,,,,$$$$\r\n" + 
+				",,,,,,,,,,,$$$$$$$$$$$$$$$$$\r\n" + 
+				",,,,,,,$$$$$$$$$$$$$$$$$$$$$$\r\n" + 
+				",,,,,$$$$$$$,,,,,,,$$$$,,,,$$$$$$$$\r\n" + 
+				",,,$$$$$$,,,,,,,,,,$$$$,,,,,,,,$$$$$$$\r\n" + 
+				",,$$$$$$,,,,,,,,,,,$$$$,,,,,,,,,,$$$$$$\r\n" + 
+				",,$$$$$$,,,,,,,,,,,$$$$\r\n" + 
+				",,$$$$$$,,,,,,,,,,,$$$$\r\n" + 
+				",,,$$$$$$,,,,,,,,,,$$$$\r\n" + 
+				",,,,$$$$$$$$,,,,,$$$$\r\n" + 
+				",,,,,,$$$$$$$$$$$$$$$\r\n" + 
+				",,,,,,,,,,$$$$$$$$$$$$$$$$$$\r\n" + 
+				",,,,,,,,,,,,,,,,,$$$$$$$$$$$$$$$$\r\n" + 
+				",,,,,,,,,,,,,,,,,,,,,,$$$$$$$$$$$$$$$$\r\n" + 
+				",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,$$$$,,,,,,,$$$$$$$\r\n" + 
+				",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,$$$$,,,,,,,,,,$$$$$$\r\n" + 
+				",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,$$$$,,,,,,,,,,,$$$$$$$\r\n" + 
+				"$$$$$$$,,,,,,,,,,,,,,$$$$,,,,,,,,,,$$$$$$$\r\n" + 
+				",$$$$$$,,,,,,,,,,,,,,,,$$$$,,,,,,,,,,$$$$$$$\r\n" + 
+				",,$$$$$$$,,,,,,,,,,,,,$$$$,,,,,,,,$$$$$$$$\r\n" + 
+				",,,$$$$$$$$,,,,,,,,,,$$$$,,,,,,$$$$$$$$\r\n" + 
+				",,,,,,$$$$$$$$$$$$$$$$$$$$$$$$\r\n" + 
+				",,,,,,,,,,$$$$$$$$$$$$$$$$$$$\r\n" + 
+				",,,,,,,,,,,,,,,,,,$$$$$$$$$$$$$$\r\n" +
+				",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,$$$$\r\n" +
+				",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,$$$$\r\n";
+		double p = 0;
+		for(int i = 0; i < climbList.size(); i++)
+		{
+			double t = climbList.get(i).price(climbList.get(i).getTime());
+			p += t;
+			t = 0;
+		}
+		output = s1 + "\n\n           Lodge's profit: $" + p;
+		JOP.msg(output);
+	}
+	
+	public void remove(String climberName)
+	{
+		String output = "";
+		for(int i = 0; i < climbList.size(); i++)
+		{
+			if(climbList.get(i).getClimberName().equalsIgnoreCase(climberName))
+			{
+				climbList.remove(i);
+				i--;
+			}
+			else
+			{
+				output = climbList.get(i).toString();
+			}
+		}
+		JOP.msg(output);
+	}
+	
+	public void navigation()
+	{
+		while(isEditing)
+		{
+			String orderInput = JOP.in("Would you like to add a hike? Input a commmand?");
+			
+			if(orderInput.equalsIgnoreCase("Add"))
+			{
+				addClimb(JOP.in("What is the hiker's name? "), JOP.in("What is the name of the mountain?"), Integer.parseInt(JOP.in("How long is the hike? (In minutes)")));
+			}
+			
+			else if(orderInput.equalsIgnoreCase("Print"))
+			{
+				printList();
+			}
+			
+			else if(orderInput.equalsIgnoreCase("Remove"))
+			{
+				remove(JOP.in("Please specify a hike by the climber's name: "));
+			}
+			
+			else if(orderInput.equalsIgnoreCase("Hiker Duration"))
+			{
+				durationHiker(JOP.in("Please specify a climber's name: "));
+			}
+			
+			else if(orderInput.equalsIgnoreCase("Location Duration"))
+			{
+				durationLoc(JOP.in("Please specify a peak's name: "));
+			}
+			
+			else if(orderInput.equalsIgnoreCase("Profit"))
+			{
+				profit();
+			}
+			
+			else if(orderInput.equalsIgnoreCase("Commands"))
+			{
+				Story story = new Story();
+				story.commands();
+			}
+			
+			else if(orderInput.equalsIgnoreCase("Exit"))
+			{			
+				isEditing = false;
+				printList();
+				profit();
+			}
+			
+			else
+			{
+				JOP.msg("Try Again");
+				Story story = new Story();
+				story.commands();
+			}
+			
+			if(climbList.size() != 0 && orderInput != "exit")
+			{
+				printList();
+			}
+		}
+	}
+	
+}
+
